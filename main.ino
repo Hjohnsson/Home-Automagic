@@ -8,7 +8,7 @@ int i = 0;
 long dist = 0;
 double procent = 0;
 
-setup()
+void setup()
 {
   //Dist DIST(12,8);
   Serial.begin(9600);
