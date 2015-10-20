@@ -11,6 +11,23 @@ min_result = 0
 h_result = 0
 not_valid_value = 0
 
+def mysql_update_value(DB,TABLE,VALUE):
+		db = MySQLdb.connect("localhost","root","hj",DB)
+		cursor = db.cursor()
+		sql = """UPDATE TABLE SET DB = ('%s')""" % VALUE
+		try:
+			cursor.execute(sql)
+			db.commit()
+			print "Succesfull update to database"
+			print "-"
+		except:
+			db.rollback()
+			print "error mysql"
+		db.close()
+	
+
+
+
 while True:
 	file = open("test.txt","r+")
 	TEMP = file.readline()
@@ -64,7 +81,6 @@ while True:
 
 			min_result = 0
 
-
 		if count_H ==60:
 			count_H = 0
 			for i in TEMP_H:
@@ -77,7 +93,6 @@ while True:
 			print "-----------"
 			print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
 			print "-----------"
-
 
 		time.sleep(1)
 	
