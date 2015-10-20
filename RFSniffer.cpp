@@ -46,7 +46,8 @@ int main(int argc, char *argv[]) {
    
           printf("Received %i\n", mySwitch.getReceivedValue() );
           ofstream myfile;
-          myfile.open("test.txt",std::ios_base::app);
+          /*myfile.open("test.txt",std::ios_base::app);*/
+          myfile.open("test.txt");
           text = mySwitch.getReceivedValue();
           myfile << text;
           myfile << "\n";
