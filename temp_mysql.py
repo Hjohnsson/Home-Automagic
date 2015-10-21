@@ -11,10 +11,10 @@ min_result = 0
 h_result = 0
 not_valid_value = 0
 
-def mysql_update_value(DB,TABLE,VALUE):
+def mysql_update_value(DB,TABLE,COLUMN,VALUE,AVERAGE):
 		db = MySQLdb.connect("localhost","root","hj",DB)
 		cursor = db.cursor()
-		sql = """UPDATE TABLE SET DB = ('%s')""" % VALUE
+		sql = """UPDATE %s SET %s = ('%s') WHERE Average=('%s')""" % (TABLE,COLUMN,VALUE,AVERAGE)
 		try:
 			cursor.execute(sql)
 			db.commit()
@@ -64,20 +64,8 @@ while True:
 			not_valid_value = 0
 
 			TEMP_H.append(flyt)
-		
-			db = MySQLdb.connect("localhost","root","hj","temp")
-			cursor = db.cursor()
-			sql = """UPDATE temperatur SET temp = ('%s')""" % flyt
-			try:
-				cursor.execute(sql)
-				db.commit()
-				print "Succesfull update to database"
-				print "-"
-			except:
-				db.rollback()
-				print "error mysql"
-			db.close()
-
+			#Databas,Table,Column,Value,Where	
+			mysql_update_value("temp","temperatur","Temperatur",flyt,'MIN')
 
 			min_result = 0
 
@@ -93,6 +81,9 @@ while True:
 			print "-----------"
 			print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
 			print "-----------"
+			
+			mysql_update_value("temp","temperatur","Temperatur",flyt_h,'H')
+
 
 		time.sleep(1)
 	
