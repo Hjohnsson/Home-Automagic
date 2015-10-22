@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<head><meta http-equiv="refresh" content="1"></head>
 <body>
 
 <canvas id="myCanvas" width="400" height="200" style="border:1px solid #000000;">
@@ -15,7 +16,7 @@ function temp() {
       echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
 
-    $TEMP = $con->query("SELECT Temperatur FROM temperatur")->fetch_row()[0];
+    $TEMP = $con->query("SELECT Temperatur FROM temperatur ORDER BY LastUpdate DESC LIMIT 10")->fetch_row()[0];
 
     //echo "Temperatur :";
     //echo $TEMP;
@@ -34,7 +35,8 @@ var KRYSSLANGD = 8;
 var ALPHA = 20/180*Math.PI; //Radians
 var ORIGO_X = myCanvas.width / 4; //Centering on canvas
 var ORIGO_Y = myCanvas.height / 2;
-var AXIS_LENGTH = 80;
+var XAXIS_LENGTH = 200;
+var YAXIS_LENGTH = 80;
 var TICK_LENGTH = 8;
 
 //Draws an arrow, i.e. for a coordinate system.
@@ -118,7 +120,7 @@ function drawXTicks(_xspace) {
   ctx.beginPath();
 
   var i = 1
-  while(i<=(AXIS_LENGTH-1.2*U)) {
+  while((i*_xspace)<=(XAXIS_LENGTH-1.2*U)) {
     ctx.moveTo(ORIGO_X+i*_xspace,ORIGO_Y+TICK_LENGTH/2)
     ctx.lineTo(ORIGO_X+i*_xspace,ORIGO_Y-TICK_LENGTH/2)
     i++
@@ -132,25 +134,17 @@ var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 
 //Draws coordinate system
-drawArrow(ORIGO_X,ORIGO_Y,ORIGO_X+AXIS_LENGTH,ORIGO_Y)  //x-axeln
-drawArrow(ORIGO_X,ORIGO_Y+AXIS_LENGTH,ORIGO_X,ORIGO_Y-AXIS_LENGTH)  //y-axeln
+drawArrow(ORIGO_X,ORIGO_Y,ORIGO_X+XAXIS_LENGTH,ORIGO_Y)  //x-axeln
+drawArrow(ORIGO_X,ORIGO_Y+YAXIS_LENGTH,ORIGO_X,ORIGO_Y-YAXIS_LENGTH)  //y-axeln
 ctx.font = 'italic 10pt Calibri';
-ctx.fillText('Tid[h]', ORIGO_X+AXIS_LENGTH+5, ORIGO_Y);
-ctx.fillText('Temp[C]', ORIGO_X, ORIGO_Y-AXIS_LENGTH-5);
-ctx.drawXTicks(AXIS_LENGTH/24)
+ctx.fillText('Tid[h]', ORIGO_X+XAXIS_LENGTH+5, ORIGO_Y);
+ctx.fillText('Temp[C]', ORIGO_X, ORIGO_Y-YAXIS_LENGTH-5);
+drawXTicks(XAXIS_LENGTH/24)
 
-N = 80;
-for (var i=0; i<N; i++) {
-  var _x = i*2*Math.PI/N;
-  drawMark(i,30*Math.sin(_x),'.')
-}
 
-<?php
-$S = temp();
-?>;
-
-var s = <?php echo $S?>;
+var s = <?php echo temp()?>;
 drawMark(60,s,'x')
+
 
 </script>
 
