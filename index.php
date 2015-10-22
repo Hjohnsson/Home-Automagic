@@ -29,14 +29,6 @@ function temp() {
 
 
 <script type="text/javascript">
-var U = 10;
-var KRYSSLANGD = 8;
-var ALPHA = 20/180*Math.PI; //Radians
-var ORIGO_X = myCanvas.width / 4; //Centering on canvas
-var ORIGO_Y = myCanvas.height / 2;
-var AXIS_LENGTH = 80;
-var TICK_LENGTH = 8;
-
 //Draws an arrow, i.e. for a coordinate system.
 function drawArrow(origin_x, origin_y, end_x, end_y) {
   var beta = Math.abs( Math.atan( Math.abs(origin_y-end_y) / Math.abs(end_x-origin_x)) ); //Radians
@@ -113,29 +105,22 @@ function drawMark(x,y,marker) {
   ctx.stroke();
 }
 
-function drawXTicks(_xspace) {
-  ctx.beginPath();
-
-  var i = 1
-  while(i<=(AXIS_LENGTH-1.2*U)) {
-    ctx.moveTo(ORIGO_X+i*_xspace,ORIGO_Y+TICK_LENGTH/2)
-    ctx.lineTo(ORIGO_X+i*_xspace,ORIGO_Y-TICK_LENGTH/2)
-    i++
-  }
-
-  ctx.stroke();
-}
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 
-//Draws coordinate system
-drawArrow(ORIGO_X,ORIGO_Y,ORIGO_X+AXIS_LENGTH,ORIGO_Y)  //x-axeln
+var U = 10;
+var KRYSSLANGD = 8;
+var ALPHA = 20/180*Math.PI; //Radians
+var ORIGO_X = myCanvas.width / 2; //Centering on canvas
+var ORIGO_Y = myCanvas.height / 2;
+var AXIS_LENGTH = 80;
+
+drawArrow(ORIGO_X-AXIS_LENGTH,ORIGO_Y,ORIGO_X+AXIS_LENGTH,ORIGO_Y)  //x-axeln
 drawArrow(ORIGO_X,ORIGO_Y+AXIS_LENGTH,ORIGO_X,ORIGO_Y-AXIS_LENGTH)  //y-axeln
 ctx.font = 'italic 10pt Calibri';
 ctx.fillText('Tid[h]', ORIGO_X+AXIS_LENGTH+5, ORIGO_Y);
 ctx.fillText('Temp[C]', ORIGO_X, ORIGO_Y-AXIS_LENGTH-5);
-ctx.drawXTicks(AXIS_LENGTH/24)
 
 N = 80;
 for (var i=0; i<N; i++) {
