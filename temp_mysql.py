@@ -33,6 +33,20 @@ def mysql_update_value(DB,TABLE,COLUMN,VALUE,AVERAGE):
 		db.close()
 	
 
+def mysql_insert_value(DB,TABLE,COLUMN,VALUE):
+		db = MySQLdb.connect("localhost","root","hj",DB)
+		cursor = db.cursor()
+		sql = """INSERT INTO %s (%s) VALUES (%s) """ % (TABLE,COLUMN,VALUE)
+		try:
+			cursor.execute(sql)
+			db.commit()
+			print "Succesfull update to database"
+			print "-"
+		except:
+			db.rollback()
+			print "error mysql"
+		db.close()
+	
 
 
 while True:
@@ -56,7 +70,7 @@ while True:
 
 		TEMP_MIN.append(TEMP)
 		print "-"
-		if count == 60:
+		if count == 10:
 			count = 0
 			count_H += 1
 
@@ -68,35 +82,36 @@ while True:
 
 			del TEMP_MIN[:]
 			getcontext().prec = 4
-			flyt = Decimal(min_result)/Decimal(60-not_valid_value)
+			flyt = Decimal(min_result)/Decimal(10-not_valid_value)
 			debug_print(flyt)
 			debug_print(min_result)
 			debug_print(not_valid_value)
 			print "-----------"
-			print "Minute value = "	+ str((Decimal(min_result)/Decimal(60-not_valid_value)))
+			print "10 seconds average value = "	+ str((Decimal(min_result)/Decimal(10-not_valid_value)))
 			print "-----------"
 			not_valid_value = 0
 
-			TEMP_H.append(flyt)
+			#TEMP_H.append(flyt)
 			#Databas,Table,Column,Value,Where	
-			mysql_update_value("temp","temperatur","Temperatur",flyt,'MIN')
+			#mysql_update_value("temp","temperatur","Temperatur",flyt,'MIN')
+			mysql_insert_value("temp","temperatur","Temperatur",flyt)
 
 			min_result = 0
 
-		if count_H ==60:
-			count_H = 0
-			for i in TEMP_H:
-				h_result = h_result + int(i)
+		#if count_H ==60:
+			#count_H = 0
+			#for i in TEMP_H:
+				#h_result = h_result + int(i)
 
-			del TEMP_H[:]
+			#del TEMP_H[:]
 
-			getcontext().prec = 4
-			flyt_h = Decimal(h_result)/Decimal(60)
-			print "-----------"
-			print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
-			print "-----------"
+			#getcontext().prec = 4
+			#flyt_h = Decimal(h_result)/Decimal(60)
+			#print "-----------"
+			#print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
+			#print "-----------"
 			
-			mysql_update_value("temp","temperatur","Temperatur",flyt_h,'H')
+			#mysql_update_value("temp","temperatur","Temperatur",flyt_h,'H')
 
 
 		time.sleep(1)
