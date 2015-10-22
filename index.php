@@ -6,7 +6,29 @@
 Your browser does not support the HTML5 canvas tag.
 </canvas>
 
-<script>
+
+<?php
+function temp() {
+    $con=mysqli_connect("localhost","root","hj","temp");
+    // Check connection
+    if (mysqli_connect_errno()) {
+      echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    }
+
+    $TEMP = $con->query("SELECT Temperatur FROM temperatur WHERE Average='MIN'")->fetch_row()[0];
+
+    //echo "Temperatur :";
+    //echo $TEMP;
+
+    mysqli_close($con);
+    return $TEMP;
+   exit;
+}
+
+?>
+
+
+<script type="text/javascript">
 //Draws an arrow, i.e. for a coordinate system.
 function drawArrow(origin_x, origin_y, end_x, end_y) {
   var beta = Math.abs( Math.atan( Math.abs(origin_y-end_y) / Math.abs(end_x-origin_x)) ); //Radians
@@ -103,9 +125,15 @@ ctx.fillText('Temp[C]', ORIGO_X, ORIGO_Y-AXIS_LENGTH-5);
 N = 80;
 for (var i=0; i<N; i++) {
   var _x = i*2*Math.PI/N;
-  drawMark(i,30*Math.sin(_x),'x')
+  drawMark(i,30*Math.sin(_x),'.')
 }
 
+<?php
+$S = temp();
+?>;
+
+var s = <?php echo $S?>;
+drawMark(60,s,'x')
 
 </script>
 
