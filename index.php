@@ -26,6 +26,26 @@ function temp() {
    exit;
 }
 
+//TODO-Ta in hela kolumnen från mysql som en array. Verkar vara fel med namnet 'TEMP_ARRAY' som får allt att flippa
+function temp_array() {
+    $con=mysqli_connect("localhost","root","hj","temp");
+    // Check connection
+    if (mysqli_connect_errno()) {
+      echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    }
+
+    $q =mysql_query("SELECT Temperatur FROM temperatur");
+    //$TEMP_ARRAY = array();
+    //while ($row = mysql_fetch_array($q,MYSQL_ASSOC)) {
+        //$TEMP_ARRAY[] = $row['Temperatur'];
+    //}
+
+    echo $TEMP_ARRAY; 
+    mysqli_close($con);
+    return $TEMP_ARRAY;
+   exit;
+}
+
 ?>
 
 
@@ -145,6 +165,10 @@ drawXTicks(XAXIS_LENGTH/24)
 var s = <?php echo temp()?>;
 drawMark(60,s,'x')
 
+var t = <?php echo json_encode(temp_array())?>;
+var temp_array = JSON.parse(t);
+
+drawMark(80,temp_array[0],'x')
 
 </script>
 
