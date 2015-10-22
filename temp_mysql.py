@@ -11,6 +11,13 @@ min_result = 0
 h_result = 0
 not_valid_value = 0
 
+debug = 1
+
+
+def debug_print(debug_text):
+	if debug ==1:
+		print "Debug :" + str(debug_text)
+
 def mysql_update_value(DB,TABLE,COLUMN,VALUE,AVERAGE):
 		db = MySQLdb.connect("localhost","root","hj",DB)
 		cursor = db.cursor()
@@ -31,8 +38,11 @@ def mysql_update_value(DB,TABLE,COLUMN,VALUE,AVERAGE):
 while True:
 	file = open("test.txt","r+")
 	TEMP = file.readline()
+	count += 1
 	if TEMP =="":
 		print "Not a valid value"
+		print "-"
+		TEMP = 0
 		not_valid_value +=1
 		time.sleep(1)
 	else:
@@ -45,19 +55,23 @@ while True:
 		print str(TIMESTAMP) + TEXT + str(TEMP1)
 
 		TEMP_MIN.append(TEMP)
-		count += 1
 		print "-"
 		if count == 60:
 			count = 0
 			count_H += 1
 
 			for i in TEMP_MIN:
-				min_result = Decimal(min_result) + Decimal(i)
+				debug_print ("-.-")
+				min_result += i
+				debug_print(min_result)
 
 
 			del TEMP_MIN[:]
 			getcontext().prec = 4
-			flyt = Decimal(min_result)/Decimal(60)
+			flyt = Decimal(min_result)/Decimal(60-not_valid_value)
+			debug_print(flyt)
+			debug_print(min_result)
+			debug_print(not_valid_value)
 			print "-----------"
 			print "Minute value = "	+ str((Decimal(min_result)/Decimal(60-not_valid_value)))
 			print "-----------"
