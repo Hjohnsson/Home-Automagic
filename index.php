@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta http-equiv="refresh" content="2"></head>
+<head><meta http-equiv="refresh" content="5"></head>
 <body>
 
 <canvas id="myCanvas" width="400" height="200" style="border:1px solid #000000;">
