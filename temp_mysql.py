@@ -11,22 +11,24 @@ min_result = 0
 h_result = 0
 not_valid_value = 0
 
-debug = 1
+debug = 0
 
 
 def debug_print(debug_text):
 	if debug ==1:
 		print "Debug :" + str(debug_text)
 
-def mysql_update_value(DB,TABLE,COLUMN,VALUE,AVERAGE):
+def mysql_update_value(DB,TABLE,COLUMN,VALUE,COLUMN2,VALUE2):
 		db = MySQLdb.connect("localhost","root","hj",DB)
 		cursor = db.cursor()
-		sql = """UPDATE %s SET %s = ('%s') WHERE Average=('%s')""" % (TABLE,COLUMN,VALUE,AVERAGE)
+                if COLUMN2 == "NULL":
+			sql = """UPDATE %s SET %s = ('%s')""" % (TABLE,COLUMN,VALUE) 
+		else:
+			sql = """UPDATE %s SET %s = ('%s') WHERE %s=('%s')""" % (TABLE,COLUMN,VALUE,COLUMN2,VALUE2)
 		try:
 			cursor.execute(sql)
 			db.commit()
-			print "Succesfull update to database"
-			print "-"
+			debug_print("Succesfull update to database")
 		except:
 			db.rollback()
 			print "error mysql"
@@ -40,7 +42,7 @@ def mysql_insert_value(DB,TABLE,COLUMN,VALUE):
 		try:
 			cursor.execute(sql)
 			db.commit()
-			print "Succesfull update to database"
+			print "Succesfull insert into database"
 			print "-"
 		except:
 			db.rollback()
@@ -61,6 +63,7 @@ while True:
 		time.sleep(1)
 	else:
 		TEMP = Decimal(TEMP)/Decimal(10)
+		mysql_update_value("temp","tblCurrentTemp","Temperatur",TEMP,'NULL','NULL')
 
 		TEMP1 = TEMP
 
