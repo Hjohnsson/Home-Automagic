@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head><meta http-equiv="refresh" content="5"></head>
+<head><meta http-equiv="refresh" content="2"></head>
+<head><link rel="stylesheet" type="text/css" href="stylesheet.css"></head>
+
+<h3>Temperatur logg</h3>
+
 <body>
-
-<canvas id="myCanvas" width="400" height="200" style="border:1px solid #000000;">
-Your browser does not support the HTML5 canvas tag.
-</canvas>
-
-
 <?php
-function temp() {
+function temp($TABLE) {
     $con=mysqli_connect("localhost","root","hj","temp");
     // Check connection
     if (mysqli_connect_errno()) {
       echo "Failed to connect to MySQL: " . mysqli_connect_error();
     }
 
-    $TEMP = $con->query("SELECT Temperatur FROM temperatur ORDER BY LastUpdate DESC LIMIT 10")->fetch_row()[0];
+    $TEMP = $con->query("SELECT Temperatur FROM $TABLE ORDER BY LastUpdate DESC LIMIT 10")->fetch_row()[0];
 
     //echo "Temperatur :";
     //echo $TEMP;
@@ -47,7 +45,17 @@ function temp_array() {
 }
 
 ?>
+	<div class="CurrentTemp">
+		<p> Nuvarande Temperatur : </p>
+	</div>
+	<div class="CurrentTempValue">
+		<p><?php echo temp("tblCurrentTemp")?></p>
+	</div>
+	<div style="clear:both;"></div>
 
+<canvas class ="Canvas" id="myCanvas" width="400" height="200" style="border:1px solid #000000;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
 
 <script type="text/javascript">
 var U = 10;
@@ -162,7 +170,7 @@ ctx.fillText('Temp[C]', ORIGO_X, ORIGO_Y-YAXIS_LENGTH-5);
 drawXTicks(XAXIS_LENGTH/24)
 
 
-var s = <?php echo temp()?>;
+var s = <?php echo temp("temperatur")?>;
 drawMark(60,s,'x')
 
 var t = <?php echo json_encode(temp_array())?>;
