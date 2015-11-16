@@ -3,5 +3,5 @@ killall python
 killall RFSniffer
 
 
-nohup /root/Home-Automagic/RFSniffer.cpp > /dev/null 2>&1 &
+nohup /root/Home-Automagic/RFSniffer > /dev/null 2>&1 &
 nohup python /root/Home-Automagic/temp_mysql.py > /dev/null 2>&1 &
