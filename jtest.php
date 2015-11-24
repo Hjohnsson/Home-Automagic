@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 	<head>
+	<meta http-equiv="refresh" content="3">	
 		<title>Home-Automagic</title>
 		<link href="stylesheet.css" type="text/css" rel="stylesheet">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -46,7 +47,7 @@ function temp($TABLE) {
 }
 
 
-function temp_array($COLUMN) {
+function temp_array($COLUMN,$TABLE) {
     $con=mysqli_connect("localhost","root","hj","temp");
     // Check connection
     if (mysqli_connect_errno()) {
@@ -55,7 +56,7 @@ function temp_array($COLUMN) {
 
     mysql_connect("localhost","root","hj");
     mysql_select_db("temp");
-    $SQLCommand = "SELECT $COLUMN FROM temperatur ORDER BY LastUpdate DESC LIMIT 10";
+    $SQLCommand = "SELECT $COLUMN FROM $TABLE ORDER BY LastUpdate DESC LIMIT 10";
     $TEMP_ARRAY = array();
     $q = mysql_query($SQLCommand) or die (mysql_error());
 
@@ -76,16 +77,17 @@ $('#myChart').click(function(){
 });
 
 function ritaGraf(){ 
-	var array = <?php echo json_encode(temp_array('Temperatur'))?>;
-	var lastUpdateArray = <?php echo json_encode(temp_array('LastUpdate'))?>;
+	var array = <?php echo json_encode(temp_array('Temperatur','tblHTemp'))?>;
+	var lastUpdateArray = <?php echo json_encode(temp_array('LastUpdate','tblHTemp'))?>;
 	var labelar = []
 	for (i=0;i<lastUpdateArray.length;i++) {
 		var textSlice = lastUpdateArray[i];
-		textSlice = textSlice.slice(11,13)
+		//textSlice = textSlice.slice(11,13)
+		textSlice = textSlice.slice(17,19)
 		labelar[i] = textSlice;	
 	}
 	var data = {
-                labels: labelar,
+                labels: labelar.reverse(),
 		//labels: lastUpdateArray,
                 datasets: [
                         	{
@@ -96,7 +98,7 @@ function ritaGraf(){
                                 	pointStrokeColor: "#195",
                                 	pointHighlightFill: "#fff",
                                 	pointHighlightStroke: "rgba(220,220,220,1)",
-                                	data: array
+                                	data: array.reverse()
                         	}
                 	]
         	};
