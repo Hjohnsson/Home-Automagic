@@ -3,13 +3,15 @@ import MySQLdb
 from decimal import *
 import datetime
 
-count = 0
-count_H = 0
-TEMP_MIN = []
+number_of_seconds = 0
+number_of_seconds_H = 0
+TEMP_MINUTE = []
 TEMP_H = []
-min_result = 0
+minute_result = 0
 h_result = 0
-not_valid_value = 0
+non_valid_values = 0
+
+SECONDS_BETWEEN_UPDATES = 3
 
 debug = 0
 
@@ -54,12 +56,13 @@ def mysql_insert_value(DB,TABLE,COLUMN,VALUE):
 while True:
 	file = open("test.txt","r+")
 	TEMP = file.readline()
-	count += 1
+	file.close()
+	number_of_seconds += 1
 	if TEMP =="":
 		print "Not a valid value"
 		print "-"
 		TEMP = 0
-		not_valid_value +=1
+		non_valid_values +=1
 		time.sleep(1)
 	else:
 		TEMP = Decimal(TEMP)/Decimal(10)
@@ -71,38 +74,38 @@ while True:
 		TEXT = " Current temperature :"
 		print str(TIMESTAMP) + TEXT + str(TEMP1)
 
-		TEMP_MIN.append(TEMP)
+		TEMP_MINUTE.append(TEMP)
 		print "-"
-		if count == 60:	#En minut har gått
-			count = 0
-			count_H += 1
+		if number_of_seconds == SECONDS_BETWEEN_UPDATES:	#En minut har gaatt
+			number_of_seconds = 0
+			number_of_seconds_H += 1
 
-			for i in TEMP_MIN:
+			for i in TEMP_MINUTE:
 				debug_print ("-.-")
-				min_result += i
-				debug_print(min_result)
+				minute_result += i
+				debug_print(minute_result)
 
 
-			del TEMP_MIN[:]
+			del TEMP_MINUTE[:]
 			getcontext().prec = 4
-			flyt = Decimal(min_result)/Decimal(10-not_valid_value)
+			flyt = Decimal(minute_result)/Decimal(SECONDS_BETWEEN_UPDATES-non_valid_values)
 			debug_print(flyt)
-			debug_print(min_result)
-			debug_print(not_valid_value)
+			debug_print(minute_result)
+			debug_print(non_valid_values)
 			print "-----------"
-			print "60 seconds average value = "	+ str((Decimal(min_result)/Decimal(10-not_valid_value)))
+			print str(SECONDS_BETWEEN_UPDATES) + " seconds average value = "	+ str((Decimal(minute_result)/Decimal(SECONDS_BETWEEN_UPDATES-non_valid_values)))
 			print "-----------"
-			not_valid_value = 0
+			non_valid_values = 0
 
 			#TEMP_H.append(flyt)
 			#Databas,Table,Column,Value,Where
 			#mysql_update_value("temp","temperatur","Temperatur",flyt,'MIN')
 			mysql_insert_value("temp","temperatur","Temperatur",flyt)
 
-			min_result = 0
+			minute_result = 0
 
-		#if count_H ==60:
-			#count_H = 0
+		#if number_of_seconds_H ==60:
+			#number_of_seconds_H = 0
 			#for i in TEMP_H:
 				#h_result = h_result + int(i)
 
