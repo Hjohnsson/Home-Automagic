@@ -16,11 +16,39 @@
 				<p> Lampa-2 </p>
 			</div>
 		</div>
+		<div class="CurrentTemp">
+			<p> Nuvarande Temperatur : </p>
+		</div>
+		<div class="CurrentTempValue">
+			<p><?php echo temp("tblCurrentTemp")?></p>
+		</div>
+		<div style="clear:both;"></div>
+
+
 	
 		<canvas id="myChart" class="myChart"></canvas>
-
+		<div class="knapp">
+			<a href="" onclick="temp_array()" class='btn'>Uppdatera</a>
+		</div>
 
 <?php
+function temp($TABLE) {
+    $con=mysqli_connect("localhost","root","hj","temp");
+    // Check connection
+    if (mysqli_connect_errno()) {
+      echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    }
+    $TEMP = $con->query("SELECT Temperatur FROM $TABLE ORDER BY LastUpdate DESC LIMIT 10")->fetch_row()[0];
+
+
+    mysqli_close($con);
+    return $TEMP;
+    exit;
+}
+
+
+
+
 function temp_array() {
     $con=mysqli_connect("localhost","root","hj","temp");
     // Check connection
