@@ -28,9 +28,6 @@
 
 	
 		<canvas id="myChart" class="myChart"></canvas>
-		<div class="knapp">
-			<a href="" onclick="temp_array()" class='btn'>Uppdatera</a>
-		</div>
 
 <?php
 function temp($TABLE) {
@@ -56,7 +53,7 @@ function temp_array($COLUMN,$TABLE) {
 
     mysql_connect("localhost","root","hj");
     mysql_select_db("temp");
-    $SQLCommand = "SELECT $COLUMN FROM $TABLE ORDER BY LastUpdate DESC LIMIT 10";
+    $SQLCommand = "SELECT $COLUMN FROM $TABLE ORDER BY LastUpdate DESC LIMIT 24";
     $TEMP_ARRAY = array();
     $q = mysql_query($SQLCommand) or die (mysql_error());
 
@@ -82,8 +79,7 @@ function ritaGraf(){
 	var labelar = []
 	for (i=0;i<lastUpdateArray.length;i++) {
 		var textSlice = lastUpdateArray[i];
-		//textSlice = textSlice.slice(11,13)
-		textSlice = textSlice.slice(17,19)
+		textSlice = textSlice.slice(11,13)
 		labelar[i] = textSlice;	
 	}
 	var data = {
@@ -106,7 +102,7 @@ function ritaGraf(){
         	var myLineChart = new Chart(ctx).Line(data,{
 			scaleShowGridLines: true,
 			scaleShowVerticalLines: true,
-			bezierCurveTension : 0,
+			bezierCurveTension : 0.2,
 		});
 }
 $(document).ready(ritaGraf);
