@@ -74,7 +74,7 @@ while True:
 		TEMP_MIN.append(TEMP)
 		print "-"
 		if count == 60:	#En minut har gått
-			count = 0	
+			count = 0
 			count_H += 1
 
 			for i in TEMP_MIN:
@@ -114,7 +114,7 @@ while True:
 			#print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
 			#print "-----------"
 
-			#mysql_update_value("temp","temperatur","Temperatur",flyt_h,'H')
+			mysql_insert_value("temp","tblHTemp","Temperatur",flyt_h,'H')
 
 
 		time.sleep(1)
