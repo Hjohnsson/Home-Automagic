@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-	<meta http-equiv="refresh" content="3">	
+	<meta http-equiv="refresh" content="30">	
 		<title>Home-Automagic</title>
 		<link href="stylesheet.css" type="text/css" rel="stylesheet">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -9,14 +9,6 @@
 		<script src="app.js"></script>
 	</head>
 	<body>
-		<div class="lampor">
-			<div class="lampa-1">
-				<p> Lampa-1 </p>
-			</div>
-			<div class="lampa-2">
-				<p> Lampa-2 </p>
-			</div>
-		</div>
 		<div class="CurrentTemp">
 			<p> Nuvarande Temperatur : </p>
 		</div>
@@ -69,9 +61,6 @@ function temp_array($COLUMN,$TABLE) {
 
 ?>
 <script>
-$('#myChart').click(function(){
-	ritaGraf();
-});
 
 function ritaGraf(){ 
 	var array = <?php echo json_encode(temp_array('Temperatur','tblHTemp'))?>;
