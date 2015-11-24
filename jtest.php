@@ -40,16 +40,13 @@ function temp($TABLE) {
     }
     $TEMP = $con->query("SELECT Temperatur FROM $TABLE ORDER BY LastUpdate DESC LIMIT 10")->fetch_row()[0];
 
-
     mysqli_close($con);
     return $TEMP;
     exit;
 }
 
 
-
-
-function temp_array() {
+function temp_array($COLUMN) {
     $con=mysqli_connect("localhost","root","hj","temp");
     // Check connection
     if (mysqli_connect_errno()) {
@@ -58,12 +55,12 @@ function temp_array() {
 
     mysql_connect("localhost","root","hj");
     mysql_select_db("temp");
-    $SQLCommand = "SELECT Temperatur FROM temperatur ORDER BY LastUpdate DESC LIMIT 10";
+    $SQLCommand = "SELECT $COLUMN FROM temperatur ORDER BY LastUpdate DESC LIMIT 10";
     $TEMP_ARRAY = array();
     $q = mysql_query($SQLCommand) or die (mysql_error());
 
     while($row = mysql_fetch_assoc($q)) {
-        $TEMP_ARRAY[] = $row['Temperatur'];
+        $TEMP_ARRAY[] = $row[$COLUMN];
     }
 
     mysqli_close($con);
@@ -79,13 +76,17 @@ $('#myChart').click(function(){
 });
 
 function ritaGraf(){ 
-	var array = <?php echo json_encode(temp_array())?>;
+	var array = <?php echo json_encode(temp_array('Temperatur'))?>;
+	var lastUpdateArray = <?php echo json_encode(temp_array('LastUpdate'))?>;
 	var labelar = []
-	for (i=0;i<array.length;i++) {
-		labelar[i] = i+1;	
+	for (i=0;i<lastUpdateArray.length;i++) {
+		var textSlice = lastUpdateArray[i];
+		textSlice = textSlice.slice(11,13)
+		labelar[i] = textSlice;	
 	}
 	var data = {
                 labels: labelar,
+		//labels: lastUpdateArray,
                 datasets: [
                         	{
                                 	label: "My First dataset",
@@ -110,7 +111,5 @@ $(document).ready(ritaGraf);
 
 </script>
 
-
-		
 	</body>
 </html>
