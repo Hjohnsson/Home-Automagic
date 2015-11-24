@@ -22,7 +22,7 @@ def mysql_update_value(DB,TABLE,COLUMN,VALUE,COLUMN2,VALUE2):
 		db = MySQLdb.connect("localhost","root","hj",DB)
 		cursor = db.cursor()
                 if COLUMN2 == "NULL":
-			sql = """UPDATE %s SET %s = ('%s')""" % (TABLE,COLUMN,VALUE) 
+			sql = """UPDATE %s SET %s = ('%s')""" % (TABLE,COLUMN,VALUE)
 		else:
 			sql = """UPDATE %s SET %s = ('%s') WHERE %s=('%s')""" % (TABLE,COLUMN,VALUE,COLUMN2,VALUE2)
 		try:
@@ -33,7 +33,7 @@ def mysql_update_value(DB,TABLE,COLUMN,VALUE,COLUMN2,VALUE2):
 			db.rollback()
 			print "error mysql"
 		db.close()
-	
+
 
 def mysql_insert_value(DB,TABLE,COLUMN,VALUE):
 		db = MySQLdb.connect("localhost","root","hj",DB)
@@ -48,7 +48,7 @@ def mysql_insert_value(DB,TABLE,COLUMN,VALUE):
 			db.rollback()
 			print "error mysql"
 		db.close()
-	
+
 
 
 while True:
@@ -73,8 +73,8 @@ while True:
 
 		TEMP_MIN.append(TEMP)
 		print "-"
-		if count == 10:
-			count = 0
+		if count == 60:	#En minut har gått
+			count = 0	
 			count_H += 1
 
 			for i in TEMP_MIN:
@@ -90,12 +90,12 @@ while True:
 			debug_print(min_result)
 			debug_print(not_valid_value)
 			print "-----------"
-			print "10 seconds average value = "	+ str((Decimal(min_result)/Decimal(10-not_valid_value)))
+			print "60 seconds average value = "	+ str((Decimal(min_result)/Decimal(10-not_valid_value)))
 			print "-----------"
 			not_valid_value = 0
 
 			#TEMP_H.append(flyt)
-			#Databas,Table,Column,Value,Where	
+			#Databas,Table,Column,Value,Where
 			#mysql_update_value("temp","temperatur","Temperatur",flyt,'MIN')
 			mysql_insert_value("temp","temperatur","Temperatur",flyt)
 
@@ -113,11 +113,8 @@ while True:
 			#print "-----------"
 			#print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
 			#print "-----------"
-			
+
 			#mysql_update_value("temp","temperatur","Temperatur",flyt_h,'H')
 
 
 		time.sleep(1)
-	
-
-
