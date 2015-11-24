@@ -105,7 +105,7 @@ while True:
 
 			minute_result = 0
 
-		if number_of_minutes ==60:
+		if number_of_minutes == MINUTES_BETWEEN_HOURLY_UPDATES:
 			number_of_minutes = 0
 			for i in TEMP_H:
 				h_result = h_result + int(i)
