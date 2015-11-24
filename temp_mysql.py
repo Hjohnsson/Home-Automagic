@@ -8,13 +8,13 @@ number_of_minutes = 0
 TEMP_MINUTE = []
 TEMP_H = []
 minute_result = 0
-h_result = 0
+hourly_result = 0
 non_valid_values = 0
 
-SECONDS_BETWEEN_UPDATES = 3
+SECONDS_BETWEEN_UPDATES = 60
 MINUTES_BETWEEN_HOURLY_UPDATES = 60
 
-debug = 0
+debug = 0	#Toggle debug prints: 1='On' 0='Off'
 
 
 def debug_print(debug_text):
@@ -108,14 +108,14 @@ while True:
 		if number_of_minutes >= MINUTES_BETWEEN_HOURLY_UPDATES:
 			number_of_minutes = 0
 			for i in TEMP_H:
-				h_result = h_result + int(i)
+				hourly_result = hourly_result + int(i)
 
 			del TEMP_H[:]
 
 			getcontext().prec = 4
-			flyt_h = Decimal(h_result)/Decimal(MINUTES_BETWEEN_HOURLY_UPDATES)
+			flyt_h = Decimal(hourly_result)/Decimal(MINUTES_BETWEEN_HOURLY_UPDATES)
 			#print "-----------"
-			#print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
+			#print " 60 Minute value = " + str((Decimal(hourly_result)/Decimal(60)))
 			#print "-----------"
 
 			mysql_insert_value("temp","tblHTemp","Temperatur",flyt_h)
