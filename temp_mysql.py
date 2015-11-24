@@ -4,7 +4,7 @@ from decimal import *
 import datetime
 
 number_of_seconds = 0
-number_of_seconds_H = 0
+number_of_minutes = 0
 TEMP_MINUTE = []
 TEMP_H = []
 minute_result = 0
@@ -79,7 +79,7 @@ while True:
 		print "-"
 		if number_of_seconds == SECONDS_BETWEEN_UPDATES:	#En minut har gaatt
 			number_of_seconds = 0
-			number_of_seconds_H += 1
+			number_of_minutes += 1
 
 			for i in TEMP_MINUTE:
 				debug_print ("-.-")
@@ -105,20 +105,20 @@ while True:
 
 			minute_result = 0
 
-		#if number_of_seconds_H ==60:
-			#number_of_seconds_H = 0
-			#for i in TEMP_H:
-				#h_result = h_result + int(i)
+		if number_of_minutes ==60:
+			number_of_minutes = 0
+			for i in TEMP_H:
+				h_result = h_result + int(i)
 
-			#del TEMP_H[:]
+			del TEMP_H[:]
 
-			#getcontext().prec = 4
+			getcontext().prec = 4
 			flyt_h = Decimal(h_result)/Decimal(MINUTES_BETWEEN_HOURLY_UPDATES)
 			#print "-----------"
 			#print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
 			#print "-----------"
 
-			mysql_insert_value("temp","tblHTemp","Temperatur",flyt_h,'H')
+			mysql_insert_value("temp","tblHTemp","Temperatur",flyt_h)
 
 
 		time.sleep(1)
