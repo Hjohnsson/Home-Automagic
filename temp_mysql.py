@@ -12,6 +12,7 @@ h_result = 0
 non_valid_values = 0
 
 SECONDS_BETWEEN_UPDATES = 3
+MINUTES_BETWEEN_HOURLY_UPDATES = 60
 
 debug = 0
 
@@ -112,7 +113,7 @@ while True:
 			#del TEMP_H[:]
 
 			#getcontext().prec = 4
-			#flyt_h = Decimal(h_result)/Decimal(60)
+			flyt_h = Decimal(h_result)/Decimal(MINUTES_BETWEEN_HOURLY_UPDATES)
 			#print "-----------"
 			#print " 60 Minute value = " + str((Decimal(h_result)/Decimal(60)))
 			#print "-----------"
