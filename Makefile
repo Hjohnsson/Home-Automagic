@@ -9,6 +9,8 @@ codesend: RCSwitch.o codesend.o
 RFSniffer: RCSwitch.o RFSniffer.o
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi
 	
+RFpi: RCSwitch.o RFpi.o
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lwiringPi
 
 clean:
-	$(RM) *.o send codesend servo RFSniffer
+	$(RM) *.o send codesend servo RFSniffer BlinkRF
