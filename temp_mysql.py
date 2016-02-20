@@ -14,7 +14,7 @@ non_valid_values = 0
 SECONDS_BETWEEN_UPDATES = 60
 MINUTES_BETWEEN_HOURLY_UPDATES = 60
 
-debug = 0	#Toggle debug prints: 1='On' 0='Off'
+debug = 1	#Toggle debug prints: 1='On' 0='Off'
 
 
 def debug_print(debug_text):
@@ -98,7 +98,7 @@ while True:
 			print "-----------"
 			non_valid_values = 0
 
-			#TEMP_H.append(flyt)
+			TEMP_H.append(flyt)
 			#Databas,Table,Column,Value,Where
 			#mysql_update_value("temp","temperatur","Temperatur",flyt,'MIN')
 			mysql_insert_value("temp","temperatur","Temperatur",flyt)
@@ -115,10 +115,10 @@ while True:
 			getcontext().prec = 4
 			flyt_h = Decimal(hourly_result)/Decimal(MINUTES_BETWEEN_HOURLY_UPDATES)
 			#print "-----------"
-			#print " 60 Minute value = " + str((Decimal(hourly_result)/Decimal(60)))
+			print " 60 Minute value = " + str((Decimal(hourly_result)/Decimal(60)))
 			#print "-----------"
 
 			mysql_insert_value("temp","tblHTemp","Temperatur",flyt_h)
-
+			hourly_result = 0
 
 		time.sleep(1)

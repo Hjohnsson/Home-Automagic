@@ -77,3 +77,42 @@ h1 {
 	height:400px;
 }
 	
+
+.meny {
+	border:2px solid #000000;
+	margin-top:5px;
+	margin-bottom:5px;
+	width:800px;
+	height:160px;
+}
+.menyknappar {
+	border:2px solid #000000;
+	margin-top:5px;
+	margin-left:15px;
+	margin-bottom:5px;
+	width:100px;
+	height:40px;
+	text-align:center;
+}
+
+.dropdown-menu {
+  font-size: 16px;
+  margin-top: 5px;
+  min-width: 105px;
+} 
+.dropdown-menu li a {
+  color: #898989;
+  padding: 6px 20px;
+  font-weight: 300;
+}
+.menu > li {
+  display: inline;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.header .menu {
+  float: right;
+  list-style: none;
+  margin-top: 5px;
+}
+	

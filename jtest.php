@@ -92,6 +92,7 @@ function ritaGraf(){
 			scaleShowGridLines: true,
 			scaleShowVerticalLines: true,
 			bezierCurveTension : 0.2,
+			pointHitDetectionRadius:1,
 		});
 }
 $(document).ready(ritaGraf);
