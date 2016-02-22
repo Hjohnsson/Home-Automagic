@@ -1,5 +1,5 @@
-#include "Arduino.h"
-#include "Sender.h"
+#include <Arduino.h>
+#include <Sender.h>
 
 Sender::Sender(int transmit_pin)
 {
@@ -8,8 +8,9 @@ Sender::Sender(int transmit_pin)
 
 //  setup sender
 void setup() {
+  printf("Setting up sender\n");
+  printf("...\n");
   mySwitch = RCSwitch();
-     
   printf("Setup complete\n"); 
 };
 
@@ -18,7 +19,7 @@ bool sendMessage(long message, int send_bit_protocol) {
   if (isMessageCorrect(message)) {
     _message = message;
   } else {
-    return false;
+    return false; //  enables error handling
   }
 
   mySwitch.enableTransmit(_transmit_pin);
