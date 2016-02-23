@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
-#include <Sender.h>
      
 #define  RPI_ID     110
 #define  ARD_ID     120
