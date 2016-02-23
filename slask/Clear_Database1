@@ -1,0 +1,2 @@
+mysql -u root -phj -Bse 'DELETE FROM temp.temperatur WHERE Temperatur >0'
+

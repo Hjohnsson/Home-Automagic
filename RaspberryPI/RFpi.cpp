@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
+#include <Sender.h>
      
 #define  RPI_ID     110
 #define  ARD_ID     120
@@ -47,10 +48,14 @@ int main() {
      while(true) {
   
       //usleep(1000000);
-      printf("sending keep alive message\n");
-      mySwitch.enableTransmit(3);
-      mySwitch.send(GenerateMessage(ARD_ID,FNK_ALIVE,DATA_NULL), SEND_BIT_PROTOCOL);      
-      mySwitch.disableTransmit();
+      printf("Sending keep alive message\n");
+      //mySwitch.enableTransmit(3);
+      //mySwitch.send(GenerateMessage(ARD_ID,FNK_ALIVE,DATA_NULL), SEND_BIT_PROTOCOL);      
+      //mySwitch.disableTransmit();
+
+
+
+
       gettimeofday(&tim, NULL);
 
       double t1=tim.tv_sec+(tim.tv_usec/1000000.0);
