@@ -42,9 +42,13 @@ int main() {
      long tmp = 0;
      long value = 0;
 
+     int _sentCounter = 0;
+     int _receivedCounter = 0;
+
      setup(); 
     
      while(true) {
+      printf("MessageSent: %d, MessageReceived: %d Lost: %d \n",_sentCounter,_receivedCounter,(_sentCounter-_receivedCounter));
   
       //usleep(1000000);
       printf("Sending keep alive message\n");
@@ -52,8 +56,13 @@ int main() {
       //mySwitch.send(GenerateMessage(ARD_ID,FNK_ALIVE,DATA_NULL), SEND_BIT_PROTOCOL);      
       //mySwitch.disableTransmit();
 
+      int _message = 0;
 
+      _message = GenerateMessage(ARD_ID,FNK_ALIVE,DATA_NULL);
+      //system("/home/herman/git/Home-Automagic/slask/codesend %d",_message);
+      system("/home/herman/git/Home-Automagic/slask/codesend 12010000");
 
+      _sentCounter = _sentCounter + 1;
 
       gettimeofday(&tim, NULL);
 
@@ -68,6 +77,9 @@ int main() {
 
         if(tmp > 1) {
           value = tmp;
+          printf("Received %d \n",value);
+          _receivedCounter = _receivedCounter + 1;
+          break;
         }
         
         gettimeofday(&tim, NULL);
@@ -80,7 +92,7 @@ int main() {
       }
       mySwitch.resetAvailable();
 
-      if(value >= 0) {
+      if(value > 0) {
          printf("%.6lf \n",value);
       }
   
