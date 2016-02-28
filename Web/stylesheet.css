@@ -162,40 +162,29 @@ h1 {
 .belysningRum {
 }
 
+.active {
+  background-color:gray
+}
 .rum1 {
-  float:left;
-  color:red;
-  font-size: 15px;
-  height:50px;
-  width:175px;
-  border-radius:15px;
-  border:2px solid #000000;
-  text-align:center;
+
 }
 .rum2 {
-  float:left;
-  padding-left:20px;
-  padding-right:20px;
-  color:green;
-  font-size: 15px;
-  height:50px;
-  width:175px;
-  border-radius:15px;
-  border:2px solid #000000;
-  text-align:center;
 }
 .rum3 {
-  float:left;
-  color:blue;
-  font-size: 15px;
-  height:50px;
-  width:175px;
-  border-radius:15px;
-  border:2px solid #000000;
-  text-align:center;
 }
 
 .line {
   margin-top:10px;
   border:2px solid #000000;
+}
+
+.row {
+  padding-left:10px;
+}
+.rubrik {
+  padding-left:10px;
+}
+.hlogg {
+  background-color: #dde0d2;
+  border:1px solid #000000;
 }
