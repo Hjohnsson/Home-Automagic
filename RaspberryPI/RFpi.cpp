@@ -48,7 +48,9 @@ int main() {
      setup(); 
     
      while(true) {
-      printf("MessageSent: %d, MessageReceived: %d Lost: %d \n",_sentCounter,_receivedCounter,(_sentCounter-_receivedCounter));
+      if (_sentCounter >= 1) {
+         printf("MessageSent: %d, MessageReceived: %d Lost: %d \n",_sentCounter,_receivedCounter,(_sentCounter-_receivedCounter));
+      }
   
       //usleep(1000000);
       printf("Sending keep alive message\n");
@@ -59,7 +61,7 @@ int main() {
       int _message = 0;
 
       _message = GenerateMessage(ARD_ID,FNK_ALIVE,DATA_NULL);
-      //system("/home/herman/git/Home-Automagic/slask/codesend %d",_message);
+      //system("/home/herman/git/Home-Automagic/slask/codesend %d" ,_message);
       system("/home/herman/git/Home-Automagic/slask/codesend 12010000");
 
       _sentCounter = _sentCounter + 1;
@@ -70,10 +72,10 @@ int main() {
       double t2=tim.tv_sec+(tim.tv_usec/1000000.0);
 
       value = 0;
-      mySwitch.enableReceive(0);  // Receiver on inerrupt 0 => that is pin #2
+     mySwitch.enableReceive(0);  // Receiver on inerrupt 0 => that is pin #2
       while(true) {
         tmp = mySwitch.getReceivedValue();
-        mySwitch.disableReceive();  // Receiver on inerrupt 0 => that is pin #2
+        //mySwitch.disableReceive();  // Receiver on inerrupt 0 => that is pin #2
 
         if(tmp > 1) {
           value = tmp;
@@ -84,16 +86,17 @@ int main() {
         
         gettimeofday(&tim, NULL);
         t2=tim.tv_sec+(tim.tv_usec/1000000.0);
-        //printf("%.6lf\n",(t2-t1));
-        if( (t2-t1) >= 1 ) {
+        printf("%.6lf\n",(t2-t1));
+        if( (t2-t1) >= 1.5 ) {
           printf("Timeout \n");
           break;
         } 
       }
+      mySwitch.disableReceive();  // Receiver on inerrupt 0 => that is pin #2
       mySwitch.resetAvailable();
 
       if(value > 0) {
-         printf("%.6lf \n",value);
+         printf("%d \n",value);
       }
   
   }

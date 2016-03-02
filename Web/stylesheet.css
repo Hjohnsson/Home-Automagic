@@ -15,13 +15,13 @@ h1 {
 }
 
 .CurrentTemp {
-	float:left;
+  float:left;
+  margin-left:15px;
 }
 
 .CurrentTempValue {
-	color:red;
+	color:black;
 	float:left;
-	margin-left:5px;
 }
 
 #myCanvas {
