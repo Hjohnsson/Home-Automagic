@@ -10,7 +10,7 @@ Sender::Sender(int transmit_pin)
 void setup() {
   printf("Setting up sender\n");
   printf("...\n");
-  mySwitch = RCSwitch();
+  _mySwitch = RCSwitch()
   printf("Setup complete\n"); 
 };
 

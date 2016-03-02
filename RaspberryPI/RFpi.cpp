@@ -33,19 +33,23 @@ long GenerateMessage(int id, int fnk, int data) {
 }
 
 int main() {
-     printf("Started\n");
-     if(wiringPiSetup() == -1)
+    printf("Started\n");
+    if(wiringPiSetup() == -1)
         return 0;
 
-     struct timeval tim;
+    struct timeval tim;
 
-     long tmp = 0;
-     long value = 0;
+    long tmp = 0;
+    long value = 0;
 
-     int _sentCounter = 0;
-     int _receivedCounter = 0;
+    int _sentCounter = 0;
+    int _receivedCounter = 0;
+    int _message = 0;
 
-     setup(); 
+    double t1=tim.tv_sec+(tim.tv_usec/1000000.0);
+    double t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+
+    setup(); 
     
      while(true) {
       if (_sentCounter >= 1) {
@@ -58,20 +62,17 @@ int main() {
       //mySwitch.send(GenerateMessage(ARD_ID,FNK_ALIVE,DATA_NULL), SEND_BIT_PROTOCOL);      
       //mySwitch.disableTransmit();
 
-      int _message = 0;
-
+      _message = 0;
       _message = GenerateMessage(ARD_ID,FNK_ALIVE,DATA_NULL);
       //system("/home/herman/git/Home-Automagic/slask/codesend %d" ,_message);
       system("/home/herman/git/Home-Automagic/slask/codesend 12010000");
-
       _sentCounter = _sentCounter + 1;
-
+      
       gettimeofday(&tim, NULL);
-
-      double t1=tim.tv_sec+(tim.tv_usec/1000000.0);
-      double t2=tim.tv_sec+(tim.tv_usec/1000000.0);
+      t1=tim.tv_sec+(tim.tv_usec/1000000.0);
 
       value = 0;
+
      mySwitch.enableReceive(0);  // Receiver on inerrupt 0 => that is pin #2
       while(true) {
         tmp = mySwitch.getReceivedValue();
@@ -92,7 +93,7 @@ int main() {
           break;
         } 
       }
-      mySwitch.disableReceive();  // Receiver on inerrupt 0 => that is pin #2
+      mySwitch.disableReceive();
       mySwitch.resetAvailable();
 
       if(value > 0) {

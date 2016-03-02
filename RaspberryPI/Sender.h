@@ -1,14 +1,12 @@
 #ifndef Sender_h
 #define Sender_h
 
-#include <Arduino.h>
 #include <RCSwitch.h>
 
 class Sender
 {
   public:
-    Sender(int sender_pin);
-
+    Sender(int transmit_pin);
     //	send message
     bool sendMessage(long message, int send_bit_protocol);
     //	setup sender
@@ -23,6 +21,7 @@ class Sender
 
     int _transmit_pin;
     long _message;
+    RCSwitch _mySwitch;
 };
 #endif
 
